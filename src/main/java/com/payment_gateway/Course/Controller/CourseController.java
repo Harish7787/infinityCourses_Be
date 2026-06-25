@@ -87,7 +87,6 @@ public class CourseController {
         return courseService.deletedCourses();
     }
     @GetMapping("/latest")
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResponseEntity<DataResponse<List<CourseResponse>>>
     getLatestCourses() {
 

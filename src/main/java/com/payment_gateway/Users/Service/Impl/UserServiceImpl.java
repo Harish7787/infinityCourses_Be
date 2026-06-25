@@ -26,6 +26,10 @@ public class UserServiceImpl
     public UserResponse create(
             CreateUserRequest request) {
 
+        Role role = request.getRole() != null
+                ? request.getRole()
+                : Role.USER;
+
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
@@ -33,7 +37,8 @@ public class UserServiceImpl
                 .password(
                         encoder.encode(
                                 request.getPassword()))
-                .role(Role.USER)
+                .role(role)
+                .avatar(request.getAvatar())
                 .active(true)
                 .build();
 
@@ -75,7 +80,10 @@ public class UserServiceImpl
 
         user.setName(request.getName());
         user.setPhone(request.getPhone());
-
+        user.setEmail(request.getEmail());
+        user.setRole(request.getRole());
+        user.setAvatar(request.getAvatar());
+        user.setActive(request.isActive());
         repository.save(user);
 
         return map(user);

@@ -72,7 +72,8 @@ public class SecurityConfig {
                                 "/api/auth/login",
                                 "/api/auth/register",
                                 "/api/courses",
-                                "/api/courses/latest"
+                                "/api/courses/latest",
+                                "/api/courses/{id}"
                         ).permitAll()
                         .requestMatchers("/api/courses/**").hasAnyRole("ADMIN","USER")
                         .requestMatchers("/api/payment/**")
