@@ -69,6 +69,16 @@ public class UserServiceImpl
     }
 
     @Override
+    public Page<UserResponse> getAllDeleted(
+            int page,
+            int size) {
+
+        return repository.findByActiveFalse(
+                        PageRequest.of(page, size))
+                .map(this::map);
+    }
+
+    @Override
     public UserResponse update(
             int id,
             UpdateUserRequest request) {
@@ -122,6 +132,7 @@ public class UserServiceImpl
                 .name(user.getName())
                 .email(user.getEmail())
                 .phone(user.getPhone())
+                .avatar(user.getAvatar())
                 .role(user.getRole())
                 .active(user.getActive())
                 .build();

@@ -18,5 +18,7 @@ public class UserResponse {
 
     private Role role;
 
+    private String avatar;
+
     private Boolean active;
 }

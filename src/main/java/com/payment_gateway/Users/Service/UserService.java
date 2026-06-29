@@ -14,6 +14,9 @@ public interface UserService {
     Page<UserResponse> getAll(
             int page,
             int size);
+    Page<UserResponse> getAllDeleted(
+            int page,
+            int size);
 
     UserResponse update(
             int id,

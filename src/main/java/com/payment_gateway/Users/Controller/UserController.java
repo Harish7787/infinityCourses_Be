@@ -1,12 +1,17 @@
 package com.payment_gateway.Users.Controller;
 
+import com.payment_gateway.Auth.Entity.User;
+import com.payment_gateway.Auth.Repository.UserRepository;
 import com.payment_gateway.Users.DTO.CreateUserRequest;
+import com.payment_gateway.Auth.DTO.Response.UserResponse;
 import com.payment_gateway.Users.DTO.Update.UpdateUserRequest;
 import com.payment_gateway.Users.Service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -14,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService service;
-
+    private final UserRepository userRepository;
     @PostMapping
     public ResponseEntity<?> create(
             @Valid
@@ -45,6 +50,19 @@ public class UserController {
                 service.getAll(page, size));
     }
 
+    @GetMapping("/deleted")
+    public ResponseEntity<?> getAllDeleted(
+
+            @RequestParam(defaultValue = "0")
+            int page,
+
+            @RequestParam(defaultValue = "10")
+            int size) {
+
+        return ResponseEntity.ok(
+                service.getAllDeleted(page, size));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> update(
             @PathVariable int id,
@@ -72,5 +90,15 @@ public class UserController {
 
         return ResponseEntity.ok(
                 "User restored");
+    }
+    @GetMapping("/me")
+    public ResponseEntity<User> getCurrentUser(Authentication authentication) {
+
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return ResponseEntity.ok(user);
     }
 }

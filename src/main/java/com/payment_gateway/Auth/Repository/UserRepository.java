@@ -16,6 +16,7 @@ public interface UserRepository
 
 
     Page<User> findByActiveTrue(Pageable pageable);
+    Page<User> findByActiveFalse(Pageable pageable);
 
     List<User> findByRole(Role role);
     Optional<User> findByEmail(String email);
